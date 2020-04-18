@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="roboticBlue">#84C9FB</color>
+    <color name="roboticDarkBlue">#5EBCF3</color>
+    <color name="lightGrey">#A2A2A2</color>
+    <color name="red">#FF0000</color>
+    <color name="successGreen">#26CA28</color>
+    <color name="darkGrey">#666464</color>
+    <color name="veryDarkGrey">#474646</color>
+    <color name="veryveryDarkGrey">#252525</color>
+    <color name="white">#FFFFFF</color>
+
+
+</resources>
