@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,13 +14,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.alroy.automessager.DBManager;
+import com.alroy.automessager.MainActivity;
 import com.alroy.automessager.R;
+import com.alroy.automessager.dbm;
+import com.alroy.automessager.ui.home.HomeFragment;
 
 public class CustomMessage extends AppCompatActivity{
 
     EditText message;
-    DBManager dbManager;
+//    DBManager dbManager;
+    dbm dbManager;
 
     private RecyclerView recyclerView;
 
@@ -29,7 +33,7 @@ public class CustomMessage extends AppCompatActivity{
         setContentView(R.layout.activity_custom_message);
 
 
-    dbManager = new DBManager(this);
+    dbManager = new dbm(this);
 
         message = findViewById(R.id.et_messageId);
 
@@ -44,7 +48,8 @@ public class CustomMessage extends AppCompatActivity{
 
         if(permissionCheck == PackageManager.PERMISSION_GRANTED){
             myMessage();
-
+            Intent intent = new Intent(CustomMessage.this, MainActivity.class);
+            startActivity(intent);
         }
 
         else{
@@ -56,7 +61,6 @@ public class CustomMessage extends AppCompatActivity{
 
 
     public void myMessage() {
-
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
@@ -80,30 +84,30 @@ public class CustomMessage extends AppCompatActivity{
 
 
         String messageText = message.getText().toString();
-        addMessage(messageText);
-//       if( dbManager.addMessage(messageText).equals("true")){
-//           Cursor data = dbManager.getMessage();
-//       String hello= data.getString(1);
-//           Toast.makeText(this ,"done"+ hello, Toast.LENGTH_SHORT).show();
+        dbManager.addmessage(messageText);
+//        addMessage(messageText);
+        if (dbManager.addmessage(messageText).equals("True")) {
+            Cursor data = dbManager.getMessage();
+
+            if (data.getCount() ==0) {
+
+                    Toast.makeText(this, "db empty" , Toast.LENGTH_SHORT).show();
+            } else
+            while (data.moveToNext()) {
+                String hello = data.getString(1);
+                Toast.makeText(this, " done"+hello, Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+//    public  void addMessage(String message){
+//        boolean insertMessage = dbManager.addMessage(message);
 //
-//       }
-//       else
-//           Toast.makeText(this ,"not done", Toast.LENGTH_SHORT).show();
-
-
-
-
-
+//        if(insertMessage)
+//            Toast.makeText(this ,"done", Toast.LENGTH_SHORT).show();
+//        else
+//            Toast.makeText(this ,"not done", Toast.LENGTH_SHORT).show();
+//
+//    }
     }
-
-    public  void addMessage(String message){
-        boolean insertMessage = dbManager.addMessage(message);
-
-        if(insertMessage)
-            Toast.makeText(this ,"done", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this ,"not done", Toast.LENGTH_SHORT).show();
-
-    }
-
 }
